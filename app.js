@@ -1,12 +1,34 @@
 /**
  * Created by Administrator on 2017/2/17.
  */
-const express = require('express');
-const app     = express();
+const express = require('express'),
+      path    = require('path'),
+      fs = require('fs'),
+      logger  = require('morgan'),
+      routes = require('./routes'),
+      favicon = require('serve-favicon');
 
-app.get('/', (req, res) => {
-    res.send('blog');
-});
+const app = express();
+
+// 设置模板目录
+app.set('views', path.join(__dirname, 'views'));
+// 设置模板引擎为 ejs
+app.set('view engine', 'ejs');
+
+// uncomment after placing your favicon in /public
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+
+//请求日志
+let accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs/access.log'), {flags: 'a'});
+app.use(logger('combined', {stream: accessLogStream}));
+
+// 路由
+routes(app);
+
+//异常请求日志
+let errorLogStream = fs.createWriteStream(path.join(__dirname, 'logs/error.log'), {flags: 'a'});
+app.use(logger('combined', {stream: errorLogStream}));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -14,6 +36,7 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {
