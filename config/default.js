@@ -4,8 +4,8 @@
 module.exports = {
     port: 8080,
     session: {
-        secret: 'cblog',
-        key: 'cblog',
+        secret: 'cblog-session',
+        key: 'cblog-session',
         maxAge: 2592000000
     },
     mongodb: 'mongodb://localhost:27017/cblog'

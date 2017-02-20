@@ -2,10 +2,14 @@
  * Created by Administrator on 2017/2/17.
  */
 const express = require('express'),
+      session = require('express-session'),
+      MongoStore = require('connect-mongo')(session),
       path    = require('path'),
-      fs = require('fs'),
+      fs      = require('fs'),
       logger  = require('morgan'),
-      routes = require('./routes'),
+      routes  = require('./routes'),
+      pkg     = require('./package'),
+      config  = require('config-lite'),
       favicon = require('serve-favicon');
 
 const app = express();
@@ -14,11 +18,31 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 // 设置模板引擎为 ejs
 app.set('view engine', 'ejs');
-
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+// 设置静态文件目录
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+    name  : config.session.key,
+    secret: config.session.secret,// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
+    cookie: {
+        maxAge: config.session.maxAge// 过期时间，过期后 cookie 中的 session id 自动删除
+    },
+    store: new MongoStore({// 将 session 存储到 mongodb
+        url: config.mongodb// mongodb 地址
+    })
+}));
+
+
+// 设置模板全局常量
+app.locals.blog = {
+    title      : pkg.name,
+    description: pkg.description
+};
+
+
+app.use(logger('dev'));
 //请求日志
 let accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs/access.log'), {flags: 'a'});
 app.use(logger('combined', {stream: accessLogStream}));
