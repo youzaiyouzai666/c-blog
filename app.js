@@ -1,16 +1,18 @@
 /**
- * Created by Administrator on 2017/2/17.
+ * Created by CAOYI on 2017/2/17.
  */
-const express = require('express'),
-      session = require('express-session'),
+"use strict";
+
+const express    = require('express'),
+      session    = require('express-session'),
       MongoStore = require('connect-mongo')(session),
-      path    = require('path'),
-      fs      = require('fs'),
-      logger  = require('morgan'),
-      routes  = require('./routes'),
-      pkg     = require('./package'),
-      config  = require('config-lite'),
-      favicon = require('serve-favicon');
+      path       = require('path'),
+      fs         = require('fs'),
+      logger     = require('morgan'),
+      config     = require('config-lite'),
+      favicon    = require('serve-favicon'),
+      routes     = require('./routes'),
+      pkg        = require('./package');
 
 const app = express();
 
@@ -29,7 +31,7 @@ app.use(session({
     cookie: {
         maxAge: config.session.maxAge// 过期时间，过期后 cookie 中的 session id 自动删除
     },
-    store: new MongoStore({// 将 session 存储到 mongodb
+    store : new MongoStore({// 将 session 存储到 mongodb
         url: config.mongodb// mongodb 地址
     })
 }));
