@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Module dependencies.
+ * Module dependencies.n
  */
-
 const app    = require('../app'),
       debug  = require('debug')('c-blog:server'),
       config = require('config-lite'),
