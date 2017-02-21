@@ -27,6 +27,8 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
+    resave:false,//添加这行
+    saveUninitialized: true,//添加这行  
     name  : config.session.key,
     secret: config.session.secret,// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
     cookie: {
