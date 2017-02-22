@@ -13,6 +13,7 @@ const express    = require('express'),
       flash      = require('connect-flash'),
       favicon    = require('serve-favicon'),
       routes     = require('./routes'),
+      api        = require('./api'),
       pkg        = require('./package');
 
 const app = express();
@@ -27,14 +28,14 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    resave:false,//添加这行
+    resave           : false,//添加这行
     saveUninitialized: true,//添加这行  
-    name  : config.session.key,
-    secret: config.session.secret,// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
-    cookie: {
+    name             : config.session.key,
+    secret           : config.session.secret,// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
+    cookie           : {
         maxAge: config.session.maxAge// 过期时间，过期后 cookie 中的 session id 自动删除
     },
-    store : new MongoStore({// 将 session 存储到 mongodb
+    store            : new MongoStore({// 将 session 存储到 mongodb
         url: config.mongodb// mongodb 地址
     })
 }));
@@ -50,9 +51,9 @@ app.locals.blog = {
 };
 // 添加模板必需的三个变量
 app.use(function (req, res, next) {
-    res.locals.user = req.session.user;
+    res.locals.user    = req.session.user;
     res.locals.success = req.flash('success').toString();
-    res.locals.error = req.flash('error').toString();
+    res.locals.error   = req.flash('error').toString();
     next();
 });
 
@@ -64,6 +65,12 @@ app.use(logger('combined', {stream: accessLogStream}));
 
 // 路由
 routes(app);
+
+//api
+api(app);
+app.get('/api/user/login',function(req,res){
+    console.log(req);
+});
 
 //异常请求日志
 let errorLogStream = fs.createWriteStream(path.join(__dirname, 'logs/error.log'), {flags: 'a'});
