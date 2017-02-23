@@ -3,8 +3,12 @@
  */
 "use strict";
 const login = function(req, res, next){
-    res.render('user/login')
+    res.render('user/login');
 };
+function register(req, res, next){
+    res.render('user/register');
+}
 module.exports = {
     login: login
+    ,register:register
 };

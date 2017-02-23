@@ -12,6 +12,7 @@ const express    = require('express'),
       config     = require('config-lite'),
       flash      = require('connect-flash'),
       favicon    = require('serve-favicon'),
+      bodyParser = require('body-parser'),
       routes     = require('./routes'),
       api        = require('./api'),
       pkg        = require('./package');
@@ -41,7 +42,13 @@ app.use(session({
 }));
 
 // flash 中间价，用来显示通知
-app.use(flash());
+app.use(flash())
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 
 // 设置模板全局常量

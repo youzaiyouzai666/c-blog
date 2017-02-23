@@ -5,8 +5,9 @@
 const home    = "",
       apiHome = "/api",
       api     = {
-          user : {
-              login: apiHome + '/user/login'
+          user: {
+              login     : apiHome + '/user/login'
+              , register: apiHome + '/user/register'
           }
       };
 define(function () {

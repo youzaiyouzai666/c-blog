@@ -7,7 +7,10 @@ var express = require('express');
 var router = express.Router();
 
 module.exports = function (app) {
+
+
     router.post('/user/login', user.login);
+    router.post('/user/register', user.register);
 
 
     app.use('/api', router);
