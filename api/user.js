@@ -16,15 +16,24 @@ function register(req, res, next) {
         avatar  : req.body.avatar,
         bio     : req.body.bio
     };
-    userService.create(user)
+    userService.findByName(user.name)
         .then(function(result){
-            console.log('sucess:'+result);
-            res.json('{test:test}');
+            //TODO 查询有问题
+            console.log(result);
+            userService.create(user)
+                .then(function(result){
+                    console.log('sucess:'+result);
+                    res.status(200).json({success:true});
+                })
+                .catch(function(e){
+                    console.log(e);
+                    res.status(500).json({success:false});
+                });
         })
         .catch(function(e){
             console.log(e);
-            res.json('{test:test}');
         });
+
 
 }
 module.exports = {
