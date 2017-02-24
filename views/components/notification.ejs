@@ -2,17 +2,13 @@
   <div class="four wide column"></div>
   <div class="eight wide column">
     
-  <% if (success) { %>
-    <div class="ui success message">
+    <div class="ui success message" style="display: none">
       <p><%= success %></p>
     </div>
-  <% } %>
 
-  <% if (error) { %>
-    <div class="ui error message">
+    <div class="ui error message js-error" style="display: none">
       <p><%= error %></p>
     </div>
-  <% } %>
 
   </div>
 </div>

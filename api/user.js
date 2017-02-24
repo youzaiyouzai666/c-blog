@@ -19,15 +19,14 @@ function register(req, res, next) {
     userService.findByName(user.name)
         .then(function(result){
             //TODO 查询有问题
-            console.log(result);
+            if(result.length>0){
+                res.status(200).jsonp({success:false,msg:'用户名已经存在'});
+            }
             userService.create(user)
                 .then(function(result){
-                    console.log('sucess:'+result);
-                    res.status(200).json({success:true});
-                })
-                .catch(function(e){
-                    console.log(e);
-                    res.status(500).json({success:false});
+                        res.status(200).jsonp({success:true});
+                    },function(e){
+                        res.status(200).jsonp({success:false});
                 });
         })
         .catch(function(e){

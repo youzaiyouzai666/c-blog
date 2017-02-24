@@ -19,6 +19,6 @@ module.exports = function (app) {
     });
     app.use('/api/*',function (err, req, res, next) {
         // render the error page
-        res.status(500).jsonp({ error: 'message' });
+        res.status(500).jsonp({ error: 'api message' });
     });
 };

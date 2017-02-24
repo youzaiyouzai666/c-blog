@@ -6,8 +6,8 @@ const userModel = require('../models').user;
 function create(user) {
     return userModel.create(user);
 }
-function findByName(user){
-    return userModel.find({name:user.name});
+function findByName(name){
+    return userModel.find({'name':name});
 }
 module.exports = {
     create      : create
