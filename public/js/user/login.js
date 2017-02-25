@@ -8,9 +8,11 @@ require.config({
         "jquery": ["//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min"]
     }
 });
-const $form = $('.js_form_login');
 
+let $form = $('.js_form_login');
+let $err  = $('.js-error');
 require(["jquery", "common/util", "common/config"], function ($, util, config) {
+
 
     $form.find('.js_login').on('click', function (e) {
         const user = getUser();
@@ -23,6 +25,17 @@ require(["jquery", "common/util", "common/config"], function ($, util, config) {
         xhr.done(successHandler);
         xhr.fail(failureHandler);
     });
+
+    function successHandler(data){
+        if(!data.success){
+            _verifyRemind(data.msg);
+            return false;
+        }
+        window.location = "/";
+    }
+    function failureHandler(data){
+        _verifyRemind(data);
+    }
 });
 
 
@@ -34,12 +47,13 @@ function getUser() {
 }
 function verify(user){
     if(!user.name || !user.password){
-
+        _verifyRemind('用户名和密码不能为空');
+        return false;
     }
+    return true;
 }
-function successHandler(data){
 
-}
-function failureHandler(data){
-
+function _verifyRemind(remind) {
+    $err.html('<p>' + remind + '</p>');
+    $err.show();
 }

@@ -2,23 +2,23 @@
  * Created by CAOYI on 2017/2/22.
  */
 "use strict";
-const user     = require('./user');
+const user  = require('./user');
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
 
 module.exports = function (app) {
-
 
     router.post('/user/login', user.login);
     router.post('/user/register', user.register);
 
-
     app.use('/api', router);
-    app.use('/api/*',function (req, res, next) {
-        res.status(404).jsonp({ error: 'message' });
+
+    //异常处理
+    app.use('/api/*', function (req, res, next) {
+        res.status(404).jsonp({error: 'message'});
     });
-    app.use('/api/*',function (err, req, res, next) {
+    app.use('/api/*', function (err, req, res, next) {
         // render the error page
-        res.status(500).jsonp({ error: 'api message' });
+        res.status(500).jsonp({error: 'api message'});
     });
 };

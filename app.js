@@ -42,10 +42,10 @@ app.use(session({
 }));
 
 // flash 中间价，用来显示通知
-app.use(flash())
+app.use(flash());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // parse application/json
 app.use(bodyParser.json());
@@ -72,12 +72,8 @@ app.use(logger('combined', {stream: accessLogStream}));
 
 // 路由
 routes(app);
-
 //api
 api(app);
-app.get('/api/user/login',function(req,res){
-    console.log(req);
-});
 
 //异常请求日志
 let errorLogStream = fs.createWriteStream(path.join(__dirname, 'logs/error.log'), {flags: 'a'});
@@ -89,8 +85,6 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
