@@ -5,9 +5,12 @@
 const home    = "",
       apiHome = "/api",
       api     = {
-          user: {
+          user     : {
               login     : apiHome + '/user/login'
               , register: apiHome + '/user/register'
+          }
+          , article: {
+              create: apiHome + '/article/create'
           }
       };
 define(function () {

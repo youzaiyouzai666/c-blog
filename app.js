@@ -58,7 +58,9 @@ app.locals.blog = {
 };
 // 添加模板必需的三个变量
 app.use(function (req, res, next) {
+    if( req.session.user) delete req.session.user.password;
     res.locals.user    = req.session.user;
+    res.locals.userStr = JSON.stringify(req.session.user || {});
     res.locals.success = req.flash('success').toString();
     res.locals.error   = req.flash('error').toString();
     next();

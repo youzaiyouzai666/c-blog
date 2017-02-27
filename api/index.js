@@ -2,14 +2,18 @@
  * Created by CAOYI on 2017/2/22.
  */
 "use strict";
-const user  = require('./user');
-var express = require('express');
-var router  = express.Router();
+const user    = require('./user'),
+      article = require('./article');
+
+var express = require('express'),
+    router  = express.Router();
 
 module.exports = function (app) {
 
     router.post('/user/login', user.login);
     router.post('/user/register', user.register);
+    router.post('/article/create', article.create);
+    router.post('/article/lists',article.lists);
 
     app.use('/api', router);
 
@@ -19,6 +23,6 @@ module.exports = function (app) {
     });
     app.use('/api/*', function (err, req, res, next) {
         // render the error page
-        res.status(500).jsonp({error: 'api message'});
+        res.status(500).jsonp({error: 'api message'+err});
     });
 };

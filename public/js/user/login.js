@@ -10,7 +10,7 @@ require.config({
 });
 
 let $form = $('.js_form_login');
-let $err  = $('.js-error');
+
 require(["jquery", "common/util", "common/config"], function ($, util, config) {
 
 
@@ -54,6 +54,7 @@ function verify(user){
 }
 
 function _verifyRemind(remind) {
+    const $err  = $('.js-error');
     $err.html('<p>' + remind + '</p>');
     $err.show();
 }

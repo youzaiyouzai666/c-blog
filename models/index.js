@@ -5,7 +5,6 @@
 const mongoose = require('mongoose'),
       config   = require('config-lite');
 
-
 mongoose.connect(config.mongodb);
 const db = mongoose.connection;
 
@@ -16,8 +15,10 @@ db.on("open", function () {
     console.log("------数据库连接成功！------");
 });
 
-const userModel= require('./userModel').model(mongoose);
+const userModel    = require('./userModel').model(mongoose),
+      articleModel = require('./articleModel').model(mongoose);
 
 module.exports = {
-    user: userModel
+    user   : userModel,
+    article: articleModel
 };
