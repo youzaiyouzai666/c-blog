@@ -2,7 +2,6 @@
  * Created by CAOYI on 2017/2/17.
  */
 "use strict";
-
 const express    = require('express'),
       session    = require('express-session'),
       MongoStore = require('connect-mongo')(session),
