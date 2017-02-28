@@ -7,8 +7,9 @@ define(['jquery'], function (jq) {
 
     $ = jq;
     return {
-        ajax  : _ajax
-        , viewFn: {
+        ajax        : _ajax
+        , fileUpload: _fileUpload
+        , viewFn    : {
             verifyRemind: _verifyRemind
         }
     }
@@ -37,9 +38,20 @@ function _ajax(req) {
         console.log('500:' + JSON.stringify(data));
     }
 }
+function _fileUpload(url, formData) {
+
+    return $.ajax({
+        url        : url,
+        type       : 'POST',
+        cache      : false,
+        data       : formData,
+        processData: false,
+        contentType: false
+    })
+}
 function _verifyRemind(remind) {
     const $err = $('.js-error');
-    if(!$err instanceof $){
+    if (!$err instanceof $) {
         return false;
     }
     $err.html('<p>' + remind + '</p>');

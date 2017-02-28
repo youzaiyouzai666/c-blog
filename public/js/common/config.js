@@ -6,8 +6,9 @@ const home    = "",
       apiHome = "/api",
       api     = {
           user     : {
-              login     : apiHome + '/user/login'
-              , register: apiHome + '/user/register'
+              login      : apiHome + '/user/login'
+              , register : apiHome + '/user/register'
+              , imgUpload: apiHome + '/user/imgUpload'
           }
           , article: {
               create: apiHome + '/article/create'

@@ -13,7 +13,7 @@ function lists(author){
             author: author
         }
     }
-    return articleModel.find(condition);
+    return articleModel.find(condition).populate('author').sort({createTime:-1});
 }
 module.exports = {
     create: create,

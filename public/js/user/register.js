@@ -10,25 +10,37 @@ require.config({
 });
 let $form,
     $err,
+    _util,
     lock = false;
 require(["jquery", "common/util", "common/config"], function ($, util, config) {
     $form = $('.js_form_register');
     $err  = $('.js-error');
+    _util = util;
     $form.find('.js-submit-register').on('click', function (e) {
         const user = getUser();
         if (!verify(user)) return false;
 
         if(lock){return;}
         lock = true;
-        util.ajax({
-            url : config.api.user.register,
-            data: user,
-            type: 'POST'
-        }).done(successHandler)
-            .fail(failureHandler);
+        imgUpload(config.api.user.imgUpload)
+            .done(function(data){
+                debugger;
+                util.ajax({
+                    url : config.api.user.register,
+                    data: user,
+                    type: 'POST'
+                }).done(successHandler)
+                    .fail(failureHandler);
+            }).fail(failureHandler)
+
 
     });
 });
+function imgUpload(url){
+    const formData = new FormData();
+    formData.append('file', $('input[name="avatar"]')[0].files[0]);
+    return _util.fileUpload(url,formData);
+}
 
 function verify(user) {
     const repassword = $form.find('input[name="repassword"]').val();

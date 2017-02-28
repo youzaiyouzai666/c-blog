@@ -8,8 +8,8 @@ function create(req, res, next) {
     const article = {
         title     : req.body.title,
         content   : req.body.content,
-        author    : req.session.user._id,
-        createTime: new Date()
+        author  : req.session.user._id,
+        createTime: new Date(),
 
     };
     articleService.create(article)
@@ -33,7 +33,7 @@ function lists(req, res, next) {
     const author = req.body.author;
     articleService.lists(author)
         .then(function (articles) {
-            if(articles.length>0){
+            if (articles.length > 0) {
                 res.status(200).jsonp({
                     success: true,
                     msg    : '查询成功',

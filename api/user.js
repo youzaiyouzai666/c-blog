@@ -1,21 +1,24 @@
 /**
  * Created by CAOYI on 2017/2/22.
  */
-const userService = require('../services').user;
+const fs          = require('fs'),
+      path        = require('path'),
+      userService = require('../services').user,
+      formidable  = require('formidable');
 function login(req, res, next) {
     const user = {
         name    : req.body.name,
         password: req.body.password
     };
     userService.findByNameAndPassword(user)
-        .then(function(result){
+        .then(function (result) {
             if (result.length > 0) {
                 delete result[0].password;
                 req.session.user = result[0];
                 req.flash('success', '登陆成功');
                 res.status(200).jsonp({success: true, msg: '登陆成功'});
 
-            }else{
+            } else {
                 res.status(200).jsonp({success: false, msg: '用户名或密码错误'});
             }
         });
@@ -37,8 +40,8 @@ function register(req, res, next) {
             }
             userService.create(user)
                 .then(function (result) {
-                    delete user.password;
-                    req.session.user = user;
+                    delete result.password;
+                    req.session.user = result;
                     req.flash('success', '注册成功');
                     res.status(200).json({success: true, msg: '注册成功'});
                 }, function (e) {
@@ -50,7 +53,44 @@ function register(req, res, next) {
         });
 
 }
+function imgUpload(req, res, next) {
+    const form          = new formidable.IncomingForm();
+    form.encoding       = 'utf-8';        //设置编辑
+    form.uploadDir      = path.join(__dirname, '_upload');   //文件保存的临时目录为当前项目下的tmp文件夹
+    form.keepExtensions = true;     //保留后缀
+    form.maxFieldsSize  = 2 * 1024 * 1024;   //文件大小
+    form.parse(req, function (err, fields, files) {
+        if (err) {
+            console.log(err);
+        }
+        var filename = files.file.name;
+
+        //文件移动的目录文件夹，不存在时创建目标文件夹
+        var targetDir = path.join(__dirname, 'upload');
+        if (!fs.existsSync(targetDir)) {
+            fs.mkdir(targetDir);
+        }
+
+        // 对文件名进行处理，以应对上传同名文件的情况
+        var nameArray = filename.split('.');
+        var type      = nameArray[nameArray.length - 1];
+        var name      = '';
+        for (var i = 0; i < nameArray.length - 1; i++) {
+            name = name + nameArray[i];
+        }
+        var rand = Math.random() * 100 + 900;
+        var num  = parseInt(rand, 10);
+
+        var avatarName = name + num + '.' + type;
+
+        var newPath = form.uploadDir + avatarName;
+        fs.renameSync(files.file.path, newPath);  //重命名
+        res.status(200).jsonp({success: true, data: {url: files.file.path}, msg: '文件上传成功'});
+    });
+
+}
 module.exports = {
-    login     : login
-    , register: register
+    login      : login
+    , register : register
+    , imgUpload: imgUpload
 };

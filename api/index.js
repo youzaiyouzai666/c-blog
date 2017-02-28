@@ -12,6 +12,7 @@ module.exports = function (app) {
 
     router.post('/user/login', user.login);
     router.post('/user/register', user.register);
+    router.post('/user/imgUpload', user.imgUpload);
     router.post('/article/create', article.create);
     router.post('/article/lists',article.lists);
 

@@ -10,7 +10,7 @@ function userModel(mongoose){
         avatar:{ type:String },
         bio:{ type:String }
     });
-    return mongoose.connection.model('user',userSchema);
+    return mongoose.connection.model('users',userSchema);
 }
 module.exports = {
     model: userModel

@@ -4,11 +4,11 @@
 "use strict";
 function articleModel(mongoose) {
     const articleSchema = new mongoose.Schema({
-        authorId    : {type: mongoose.Schema.Types.ObjectId,ref: 'users'},
+        author    : {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
         title     : {type: 'string'},
-        abstract: {type: String}, //摘要
+        abstract  : {type: String}, //摘要
         content   : {type: 'string'},
-        pv        : {type: 'number'},
+        pv        : {type: 'number', default: 0},
         createTime: [Date],
         updateTime: [Date],
     });
