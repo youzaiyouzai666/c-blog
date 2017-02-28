@@ -44,7 +44,7 @@ app.use(session({
 app.use(flash());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 // parse application/json
 app.use(bodyParser.json());
@@ -57,7 +57,7 @@ app.locals.blog = {
 };
 // 添加模板必需的三个变量
 app.use(function (req, res, next) {
-    if( req.session.user) delete req.session.user.password;
+    if (req.session.user) delete req.session.user.password;
     res.locals.user    = req.session.user;
     res.locals.userStr = JSON.stringify(req.session.user || {});
     res.locals.success = req.flash('success').toString();
