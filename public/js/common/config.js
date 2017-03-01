@@ -7,6 +7,7 @@ const home    = "",
       api     = {
           user     : {
               login      : apiHome + '/user/login'
+              , logout   : apiHome + '/user/logout'
               , register : apiHome + '/user/register'
               , imgUpload: apiHome + '/user/imgUpload'
           }

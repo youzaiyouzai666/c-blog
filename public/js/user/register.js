@@ -24,7 +24,10 @@ require(["jquery", "common/util", "common/config"], function ($, util, config) {
         lock = true;
         imgUpload(config.api.user.imgUpload)
             .done(function(data){
-                debugger;
+                if(!data.success){
+                    _verifyRemind(data.msg);
+                }
+                user.avatar = data.data.url;
                 util.ajax({
                     url : config.api.user.register,
                     data: user,
@@ -70,7 +73,7 @@ function getUser() {
         password: $form.find('input[name="password"]').val(),
         gender  : $form.find('select[name="gender"]').val(),
         avatar  : $form.find('input[name="avatar"]').val(),
-        bio     : $form.find('input[name="bio"]').val()
+        bio     : $form.find('textarea[name="bio"]').val()
     };
 }
 

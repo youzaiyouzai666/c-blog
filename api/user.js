@@ -1,6 +1,7 @@
 /**
  * Created by CAOYI on 2017/2/22.
  */
+"use strict";
 const fs          = require('fs'),
       path        = require('path'),
       userService = require('../services').user,
@@ -22,6 +23,11 @@ function login(req, res, next) {
                 res.status(200).jsonp({success: false, msg: '用户名或密码错误'});
             }
         });
+
+}
+function logout(req, res, next){
+    req.session.user = null;
+    res.status(200).jsonp({success: true, msg: '推出登陆'});
 
 }
 function register(req, res, next) {
@@ -63,32 +69,32 @@ function imgUpload(req, res, next) {
         if (err) {
             res.status(200).jsonp({success: false, data: {}, msg: '文件上传失败'});
         }
-        var filename = files.file.name;
+        let filename = files.file.name;
 
         //文件移动的目录文件夹，不存在时创建目标文件夹
-        var targetDir = path.resolve(__dirname, '../public/upload');
+        let targetDir = path.resolve(__dirname, '../public/upload');
         if (!fs.existsSync(targetDir)) {
             fs.mkdirSync(targetDir);
         }
 
         // 对文件名进行处理，以应对上传同名文件的情况
-        var nameArray = filename.split('.');
-        var type      = nameArray[nameArray.length - 1];
-        var name      = '';
+        let nameArray = filename.split('.');
+        let type      = nameArray[nameArray.length - 1];
+        let name      = '';
         for (var i = 0; i < nameArray.length - 1; i++) {
             name = name + nameArray[i];
         }
-        var rand = Math.random() * 100 + 900;
-        var num  = parseInt(rand, 10);
+        let rand = Math.random() * 100 + 900;
+        let num  = parseInt(rand, 10);
 
-        var avatarName = name + num + '.' + type;
+        let avatarName = name + num + '.' + type;
 
-        var newPath = path.join(targetDir , avatarName);
-        fs.rename(files.file.path, newPath, function(err,data){//从临时文件目录移动
-            if(err){
+        let newPath = path.join(targetDir, avatarName);
+        fs.rename(files.file.path, newPath, function (err, data) {//从临时文件目录移动
+            if (err) {
                 res.status(200).jsonp({success: false, data: {}, msg: '文件上传失败'});
             }
-            res.status(200).jsonp({success: true, data: {url: files.file.path}, msg: '文件上传成功'});
+            res.status(200).jsonp({success: true, data: {url: 'upload/'+avatarName}, msg: '文件上传成功'});
         });
 
     });
@@ -96,6 +102,7 @@ function imgUpload(req, res, next) {
 }
 module.exports = {
     login      : login
+    , logout   : logout
     , register : register
     , imgUpload: imgUpload
 };

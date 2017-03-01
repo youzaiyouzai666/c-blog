@@ -11,6 +11,7 @@ var express = require('express'),
 module.exports = function (app) {
 
     router.post('/user/login', user.login);
+    router.post('/user/logout', user.logout);
     router.post('/user/register', user.register);
     router.post('/user/imgUpload', user.imgUpload);
     router.post('/article/create', article.create);
@@ -24,6 +25,7 @@ module.exports = function (app) {
     });
     app.use('/api/*', function (err, req, res, next) {
         // render the error page
+        console.error(err);
         res.status(500).jsonp({error: 'api message'+err});
     });
 };
