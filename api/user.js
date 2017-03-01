@@ -56,19 +56,19 @@ function register(req, res, next) {
 function imgUpload(req, res, next) {
     const form          = new formidable.IncomingForm();
     form.encoding       = 'utf-8';        //设置编辑
-    form.uploadDir      = path.join(__dirname, '_upload');   //文件保存的临时目录为当前项目下的tmp文件夹
+    form.uploadDir      = path.resolve(__dirname, '../public/_upload');   //文件保存的临时目录为当前项目下的tmp文件夹
     form.keepExtensions = true;     //保留后缀
     form.maxFieldsSize  = 2 * 1024 * 1024;   //文件大小
     form.parse(req, function (err, fields, files) {
         if (err) {
-            console.log(err);
+            res.status(200).jsonp({success: false, data: {}, msg: '文件上传失败'});
         }
         var filename = files.file.name;
 
         //文件移动的目录文件夹，不存在时创建目标文件夹
-        var targetDir = path.join(__dirname, 'upload');
+        var targetDir = path.resolve(__dirname, '../public/upload');
         if (!fs.existsSync(targetDir)) {
-            fs.mkdir(targetDir);
+            fs.mkdirSync(targetDir);
         }
 
         // 对文件名进行处理，以应对上传同名文件的情况
@@ -83,9 +83,14 @@ function imgUpload(req, res, next) {
 
         var avatarName = name + num + '.' + type;
 
-        var newPath = form.uploadDir + avatarName;
-        fs.renameSync(files.file.path, newPath);  //重命名
-        res.status(200).jsonp({success: true, data: {url: files.file.path}, msg: '文件上传成功'});
+        var newPath = path.join(targetDir , avatarName);
+        fs.rename(files.file.path, newPath, function(err,data){//从临时文件目录移动
+            if(err){
+                res.status(200).jsonp({success: false, data: {}, msg: '文件上传失败'});
+            }
+            res.status(200).jsonp({success: true, data: {url: files.file.path}, msg: '文件上传成功'});
+        });
+
     });
 
 }
