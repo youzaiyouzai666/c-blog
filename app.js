@@ -53,7 +53,8 @@ app.use(bodyParser.json());
 // 设置模板全局常量
 app.locals.blog = {
     title      : pkg.name,
-    description: pkg.description
+    description: pkg.description,
+    staticHome: config.staticHome,
 };
 // 添加模板必需的三个变量
 app.use(function (req, res, next) {

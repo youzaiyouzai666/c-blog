@@ -14,7 +14,9 @@ module.exports = function (app) {
     router.post('/user/logout', user.logout);
     router.post('/user/register', user.register);
     router.post('/user/imgUpload', user.imgUpload);
+
     router.post('/article/create', article.create);
+    router.post('/article/edit', article.edit);
     router.post('/article/lists',article.lists);
 
     app.use('/api', router);

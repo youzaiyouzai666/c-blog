@@ -5,7 +5,7 @@
 let viewFn,
     $form;
 require.config({
-    baseUrl: '../js',
+    baseUrl: c.staticHome+'/js',
     paths  : {
         "jquery": ["//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min"]
     }
@@ -24,6 +24,9 @@ require(["jquery", "common/util", "common/config"], function ($, util, config) {
         xhr.done(successHandler);
         xhr.fail(failureHandler);
     });
+    !(function init(){
+
+    }());
 });
 function successHandler(data){
     if(!data.success){

@@ -42,6 +42,7 @@ function register(req, res, next) {
         .then(function (result) {
             //TODO 查询有问题
             if (result.length > 0) {
+                fs.unlink(path.resolve(__dirname, '../public/'+user.avatar));
                 res.status(200).jsonp({success: false, msg: '用户名已经存在'});
             }
             userService.create(user)

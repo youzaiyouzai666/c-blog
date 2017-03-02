@@ -3,27 +3,35 @@
 <div class="ui grid">
     <div class="four wide column">
         <a class="avatar"
-           href="/posts?author=<%= user._id %>"
+           href="/article/lists?author=<%= user._id %>"
            data-title="<%= user.name %> | <%= ({m: '男', f: '女', x: '保密'})[user.gender] %>"
            data-content="<%= user.bio %>">
-            <img class="avatar" src="/img/<%= user.avatar %>">
+            <img class="avatar" src="/<%= user.avatar %>">
         </a>
     </div>
 
     <div class="eight wide column">
-        <form class="ui form segment js_form_article"  >
+        <form class="ui form segment js_form_article">
             <div class="field required">
                 <label>标题</label>
-                <input type="text" name="title">
+                <input type="text" name="title"
+                        <% if(locals.article){ %>
+                       value="<%= article.title %>">
+                        <% } %>
             </div>
             <div class="field required">
                 <label>内容</label>
-                <textarea name="content" rows="15"></textarea>
+                <% if(locals.article){ %>
+                <textarea name="content" rows="15"><%= article.content %></textarea>
+                <% }else{ %>
+                <textarea name="content" rows="15"> </textarea>
+                <% } %>
             </div>
             <input type="button" class="ui button js_create" value="发布">
         </form>
     </div>
 </div>
-<script data-main="../js/article/create" src="//cdn.bootcss.com/require.js/2.3.2/require.min.js" ></script>
+<script data-main="<% blog.staticHome %>/js/article/create"
+        src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
 
-<%-include('../layout/footer')%>
+<%- include('../layout/footer') %>

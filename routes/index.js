@@ -10,5 +10,7 @@ module.exports = function (app) {
     app.get('/login', user.login);
     app.get('/register', user.register);
     app.get('/article/create', article.create);
+    app.get('/article/edit/:id', article.edit);
     app.get('/article/lists', article.lists);
+    app.get('/article/:id', article.one);
 };

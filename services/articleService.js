@@ -6,16 +6,34 @@ const articleModel = require('../models').article;
 function create(article) {
     return articleModel.create(article);
 }
-function lists(author){
+function lists(author) {
     let condition = {};
-    if(author){
+    if (author) {
         condition = {
             author: author
         }
     }
-    return articleModel.find(condition).populate('author').sort({createTime:-1});
+    return _findService(condition);
+}
+function one(id) {
+    let condition = {};
+    if (id) {
+        condition = {
+            _id: id
+        }
+    }
+    return _findService(condition);
+}
+
+function _findService(condition) {
+    return articleModel.find(condition).populate('author').sort({createTime: -1});
+}
+function findBase(condition) {
+    return articleModel.find(condition).sort({createTime: -1});
 }
 module.exports = {
-    create: create,
-    lists: lists
+    create  : create,
+    findBase: findBase,
+    lists   : lists,
+    one     : one
 };

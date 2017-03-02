@@ -5,13 +5,13 @@
          href="/article/lists?author=<%= article.author._id %>"
          data-title="<%= article.author.name %> | <%= ({m: '男', f: '女', x: '保密'})[article.author.gender] %>"
          data-content="<%= article.author.bio %>">
-        <img class="avatar" src="/img/<%= article.author.avatar %>">
+        <img class="avatar" src="/<%= article.author.avatar %>">
       </a>
     </div>
 
     <div class="eight wide column">
       <div class="ui segment">
-        <h3><a href="/article/lists/<%= article._id %>"><%= article.title %></a></h3>
+        <h3><a href="/article/<%= article._id %>"><%= article.title %></a></h3>
         <pre><%- article.content %></pre>
         <div>
           <span class="tag"><%= article.created_at %></span>
@@ -24,8 +24,8 @@
                 <div class="text"></div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div class="item"><a href="/article/lists/<%= article._id %>/edit">编辑</a></div>
-                  <div class="item"><a href="/article/lists/<%= article._id %>/remove">删除</a></div>
+                  <div class="item"><a href="/article/edit/<%= article._id %>">编辑</a></div>
+                  <div class="item"><a href="/article/delete/<%= article._id %>/remove">删除</a></div>
                 </div>
               </div>
             <% } %>
