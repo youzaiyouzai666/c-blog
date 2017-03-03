@@ -17,17 +17,24 @@ module.exports = function (app) {
 
     router.post('/article/create', article.create);
     router.post('/article/edit', article.edit);
-    router.post('/article/lists',article.lists);
+    router.post('/article/lists', article.lists);
 
     app.use('/api', router);
 
     //异常处理
     app.use('/api/*', function (req, res, next) {
-        res.status(404).jsonp({error: 'message'});
+        const err  = new Error('Not Found');
+        err.status = 404;
+        next(err);
     });
     app.use('/api/*', function (err, req, res, next) {
         // render the error page
+        res.status(err.status || 500);
+        res.jsonp({
+            success: false,
+            msg    : err.message || '失败',
+            stack  : err.stack
+        });
         console.error(err);
-        res.status(500).jsonp({error: 'api message'+err});
     });
 };

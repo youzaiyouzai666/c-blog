@@ -24,7 +24,7 @@ function create(req, res, next) {
                     }
                 });
             } else {
-                res.status(200).jsonp({success: false, msg: '发布失败'});
+                throw new Error('发布失败');
             }
         });
 
@@ -37,22 +37,39 @@ function edit(req, res, next) {
         author    : req.session.user._id,
         createTime: new Date(),
     };
-    _check(article);
-    articleService.updata(article)
-        .then(function (result) {
-            if (result._id) {
-                req.flash('success', '发布成功');
-                res.status(200).jsonp({
-                    success: true,
-                    msg    : '发布成功',
-                    data   : {
-                        id: result._id
-                    }
-                });
-            } else {
-                res.status(200).jsonp({success: false, msg: '发布失败'});
-            }
-        });
+    function _update(err, data) {
+        if (err) {
+            res.status(500).jsonp({
+                success: false,
+                msg    : '发布成功',
+                data   : {
+                    id: result._id
+                }
+            });
+            // throw err;
+        }
+        articleService.update(article)
+            .then(function (result) {
+                if (result._id) {
+                    req.flash('success', '更新成功');
+                    res.status(200).jsonp({
+                        success: true,
+                        msg    : '发布成功',
+                        data   : {
+                            id: result._id
+                        }
+                    });
+                } else {
+                    throw new Error('发布失败');
+                }
+            },function (err) {
+                console.error(err);
+                new Error('发布失败');
+            });
+    }
+    _check(article, _update);
+
+
 }
 function lists(req, res, next) {
     const author = req.body.author;
@@ -74,23 +91,21 @@ function lists(req, res, next) {
  * @param article
  * @private
  */
-function _check(article,callback) {
+function _check(article, callback) {
     const _article = {
         _id: article._id
     };
     articleService.findBase(_article)
         .then(function (data) {
-            if(data.length < 1) {
-                callback(err);
-            }
-            if(data[0].author != article.author ){
-                callback(null,data)
+            if (data.length < 1) {
+                callback('没有权限');
+            } else if (data[0].author.id != article.author) {
+                callback(null, data)
             }
 
-        }).catch(function (err) {
-        console.log(err);
-        return false;
-    });
+        }, function (err) {
+            callback(new Error('权限查询失败'));
+        });
 }
 module.exports = {
     create: create,

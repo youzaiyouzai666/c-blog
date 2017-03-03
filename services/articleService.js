@@ -29,11 +29,15 @@ function _findService(condition) {
     return articleModel.find(condition).populate('author').sort({createTime: -1});
 }
 function findBase(condition) {
-    return articleModel.find(condition).sort({createTime: -1});
+    return articleModel.find(condition);
+}
+function update(article){
+    return articleModel.update(article);
 }
 module.exports = {
     create  : create,
     findBase: findBase,
     lists   : lists,
-    one     : one
+    one     : one,
+    update  : update
 };

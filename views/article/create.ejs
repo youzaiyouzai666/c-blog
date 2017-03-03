@@ -12,12 +12,21 @@
 
     <div class="eight wide column">
         <form class="ui form segment js_form_article">
+            <div class="field required" style="display:none">
+                <label>ID</label>
+                <input type="text" name="id"
+                        <% if(locals.article){ %>
+                       value="<%= article.id %>">
+                <% } %>
+                >
+            </div>
             <div class="field required">
                 <label>标题</label>
                 <input type="text" name="title"
                         <% if(locals.article){ %>
                        value="<%= article.title %>">
-                        <% } %>
+                <% } %>
+                >
             </div>
             <div class="field required">
                 <label>内容</label>

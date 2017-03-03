@@ -7,8 +7,14 @@ const articleService = require('../services').article;
 function create(req, res, next) {
     res.render('article/create');
 }
-function edit(req, res, next){
-    const id = req.params.id;
+function edit(req, res, next) {
+    const id           = req.params.id,
+          page         = {
+              type: 'edit',
+              name: 'article'
+          };
+    res.locals.page    = page;
+    res.locals.pageStr = JSON.stringify(page);
     articleService.one(id)
         .then(function (articles) {
             res.render('article/create', {article: articles[0]});

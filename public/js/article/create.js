@@ -13,19 +13,28 @@ require.config({
 require(["jquery", "common/util", "common/config"], function ($, util, config) {
     $form = $('.js_form_article');
     viewFn = util.viewFn;
-    $form.find('.js_create').on('click', function (e) {
-        const article = getArticle();
-        if(!verify(article)) return false;
-        const xhr = util.ajax({
-            url : config.api.article.create,
-            data: article,
-            type: 'POST'
+    function addEvent(){
+        $form.find('.js_create').on('click', function (e) {
+            const article = getArticle();
+            if(!verify(article)) return false;
+            const xhr = util.ajax({
+                url : _getUrl(),
+                data: article,
+                type: 'POST'
+            });
+            xhr.done(successHandler);
+            xhr.fail(failureHandler);
         });
-        xhr.done(successHandler);
-        xhr.fail(failureHandler);
-    });
-    !(function init(){
+    }
+    function _getUrl(){
+        if(c.page.type ==='edit'){
+            return config.api.article.edit;
+        }
+        return config.api.article.create;
+    }
 
+    !(function init(){
+        addEvent();
     }());
 });
 function successHandler(data){
@@ -41,6 +50,7 @@ function failureHandler(data){
 
 function getArticle(){
     return {
+        id:$form.find('input[name="id"]').val()||'',
         title    : $form.find('input[name="title"]').val(),
         content: $form.find('textarea[name="content"]').val()
     };

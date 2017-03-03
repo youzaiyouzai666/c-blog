@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title><%= blog.title %></title>
     <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.1.8/semantic.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/semantic-ui/2.1.8/semantic.min.js"></script>
-  </head>
-  <body>
-  <script >
-    window.c = {
-      staticHome: "//<%= blog.staticHome %>"
-    }
-  </script>
-  <%- include('../components/nav') %>
-  <%- include('../components/nav-setting') %>
-  <%- include('../components/notification') %>
+</head>
+<body>
+<script>
+    !function () {
+        "use strict";
+        var userStr    = <%- locals.userStr %>,
+            pageStr    = <%- locals.pageStr %>,
+            staticHome = "//<%= blog.staticHome %>";
+
+        window.c = {
+            staticHome: staticHome || "",
+            user      : userStr || {},
+            page      : pageStr || {}
+        }
+    }();
+</script>
+<%- include('../components/nav') %>
+<%- include('../components/nav-setting') %>
+<%- include('../components/notification') %>

@@ -13,6 +13,7 @@ const home    = "",
           }
           , article: {
               create: apiHome + '/article/create'
+              , edit: apiHome + '/article/edit'
           }
       };
 define(function () {
