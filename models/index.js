@@ -16,9 +16,11 @@ db.on("open", function () {
 });
 
 const userModel    = require('./userModel').model(mongoose),
-      articleModel = require('./articleModel').model(mongoose);
+      articleModel = require('./articleModel').model(mongoose),
+      commentModel = require('./commentModel').model(mongoose);
 
 module.exports = {
-    user   : userModel,
-    article: articleModel
+    user        : userModel,
+    article     : articleModel,
+    commentModel: commentModel,
 };

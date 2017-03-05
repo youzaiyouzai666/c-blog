@@ -3,6 +3,7 @@
  */
 "use strict";
 let viewFn,
+    _config,
     $form;
 require.config({
     baseUrl: c.staticHome+'/js',
@@ -13,6 +14,7 @@ require.config({
 require(["jquery", "common/util", "common/config"], function ($, util, config) {
     $form = $('.js_form_article');
     viewFn = util.viewFn;
+    _config = config;
     function addEvent(){
         $form.find('.js_create').on('click', function (e) {
             const article = getArticle();
@@ -42,7 +44,7 @@ function successHandler(data){
         viewFn.verifyRemind(data.msg);
         return false;
     }
-    window.location = "/";
+    window.location.replace(_config.uri.article.one+data.data.id);
 }
 function failureHandler(data){
     viewFn.verifyRemind(data);

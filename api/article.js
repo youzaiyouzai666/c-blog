@@ -30,13 +30,17 @@ function create(req, res, next) {
 
 }
 function edit(req, res, next) {
-    const article = {
+    const conditions = {
+        _id: req.body.id
+    }
+    const article    = {
         _id       : req.body.id,
         title     : req.body.title,
         content   : req.body.content,
         author    : req.session.user._id,
         createTime: new Date(),
     };
+
     function _update(err, data) {
         if (err) {
             res.status(500).jsonp({
@@ -48,27 +52,27 @@ function edit(req, res, next) {
             });
             // throw err;
         }
-        articleService.update(article)
+        articleService.update(conditions, article)
             .then(function (result) {
-                if (result._id) {
+                if (result.ok > 0) {
                     req.flash('success', '更新成功');
                     res.status(200).jsonp({
                         success: true,
-                        msg    : '发布成功',
+                        msg    : '更新成功',
                         data   : {
-                            id: result._id
+                            id: article._id
                         }
                     });
                 } else {
-                    throw new Error('发布失败');
+                    throw new Error('更新失败');
                 }
-            },function (err) {
-                console.error(err);
-                new Error('发布失败');
-            });
+            }, function (err) {
+                throw new Error('更新失败');
+            })
+            .catch(next);
     }
-    _check(article, _update);
 
+    _check(article, _update);
 
 }
 function lists(req, res, next) {
@@ -98,9 +102,11 @@ function _check(article, callback) {
     articleService.findBase(_article)
         .then(function (data) {
             if (data.length < 1) {
-                callback('没有权限');
-            } else if (data[0].author.id != article.author) {
+                callback(new Error('权限查询失败'));
+            } else if (data[0].author.toString() == article.author) {
                 callback(null, data)
+            } else {
+                callback(new Error('权限查询失败'));
             }
 
         }, function (err) {

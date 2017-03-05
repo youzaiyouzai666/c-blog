@@ -31,8 +31,8 @@ function _findService(condition) {
 function findBase(condition) {
     return articleModel.find(condition);
 }
-function update(article){
-    return articleModel.update(article);
+function update(conditions,article){
+    return articleModel.update(conditions, article);
 }
 module.exports = {
     create  : create,

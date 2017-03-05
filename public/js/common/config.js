@@ -15,12 +15,19 @@ const home    = "",
               create: apiHome + '/article/create'
               , edit: apiHome + '/article/edit'
           }
+      },
+      uri = {
+          article: {
+              one: '/article/'
+          }
       };
+
 define(function () {
 
     return {
         home   : home,
         apiHome: apiHome,
-        api    : api
+        api    : api,
+        uri    : uri
     }
 });
