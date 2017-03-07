@@ -12,7 +12,7 @@ function commentModel(mongoose) {
         createTime: [Date],
         updateTime: [Date],
     });
-    return mongoose.connection.model('comment', articleSchema);
+    return mongoose.connection.model('comment', commentSchema);
 }
 module.exports = {
     model: commentModel
