@@ -41,6 +41,7 @@ require(["jquery", "common/util", "common/config"], function ($, util, config) {
 });
 function imgUpload(url){
     const formData = new FormData();
+    formData.append('test', 'test');
     formData.append('file', $('input[name="avatar"]')[0].files[0]);
     return _util.fileUpload(url,formData);
 }

@@ -10,10 +10,10 @@ define(['jquery',"common/util", "common/config"], function (jq,util,config) {
             url:config.api.user.logout,
             type:'POST'
         }).done(function(e){
-            window.location.replace(location);
+            window.location.replace('/home');
         })
             .fail(function(e){
-                window.location.replace(location);
+                window.location.replace('/home');
             })
     }
     !(function init(){

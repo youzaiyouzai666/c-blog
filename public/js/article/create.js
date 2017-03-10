@@ -11,7 +11,7 @@ require.config({
         "jquery": ["//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min"]
     }
 });
-require(["jquery", "common/util", "common/config"], function ($, util, config) {
+require(["jquery", "common/util", "common/config","common/common"], function ($, util, config) {
     $form = $('.js_form_article');
     viewFn = util.viewFn;
     _config = config;

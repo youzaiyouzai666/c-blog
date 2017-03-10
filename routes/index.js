@@ -7,6 +7,7 @@ const main    = require('./main'),
 
 module.exports = function (app) {
     app.get('/', main.home);
+    app.get('/home', main.home);
     app.get('/login', user.login);
     app.get('/register', user.register);
     app.get('/article/create', article.create);
