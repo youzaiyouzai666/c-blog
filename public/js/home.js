@@ -22,7 +22,7 @@ require(["jquery", "common/util", "common/config","common/common"],
             ));
         }
 
-        getPromise().then(function(data){
+      /*  getPromise().then(function(data){
             console.log(data);
             return getPromise();
         }).catch(function(e){
@@ -31,10 +31,10 @@ require(["jquery", "common/util", "common/config","common/common"],
             function(data){
                 console.log(data);
             }
-        );
-      /*  function* gen(){
+        );*/
+        function* gen(){
             var result = yield getPromise();
-            var re2 = yield getPromise();
+            var re2 = yield getPromise(result);
         }
 
         let g = gen();
@@ -46,7 +46,7 @@ require(["jquery", "common/util", "common/config","common/common"],
             return g.next(data);
         }).then(function(data){
             console.log(data);
-        })*/
+        })
 
 
 
